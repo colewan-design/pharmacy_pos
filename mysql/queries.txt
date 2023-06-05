@@ -1,0 +1,17 @@
+SELECT * FROM transactions a
+LEFT JOIN  orders b ON a.transactionId = b.transactionId
+LEFT JOIN  items c ON b.itemId = c.itemId
+LEFT JOIN  categories d ON c.categoryId = d.categoryId
+LEFT JOIN  departments e  ON d.departmentId = e.departmentId
+
+
+// reset
+
+ALTER TABLE cashins AUTO_INCREMENT = 1
+ALTER TABLE cashouts AUTO_INCREMENT = 1
+ALTER TABLE beginingfunds AUTO_INCREMENT = 1
+ALTER TABLE orders AUTO_INCREMENT = 1
+ALTER TABLE payments AUTO_INCREMENT = 1
+ALTER TABLE transactions AUTO_INCREMENT = 1
+ALTER TABLE expenses AUTO_INCREMENT = 1
+ALTER TABLE inventories AUTO_INCREMENT = 1
