@@ -56,9 +56,14 @@
                     title="Add Purchase Order"
                     :mask-closable = "false"
                     :closable = "false">
+
                     <div class="space">
-                        <Input type="text" v-model="data.supplierName" placeholder="Supplier Name" />
+                        <AutoComplete v-model="data.supplierName" placeholder="Supplier Name">
+                        <Option v-for="supplier in suppliers" :key="supplier.id" :value="supplier.supplierName">{{ supplier.supplierName }}</Option>
+                        </AutoComplete>
+
                     </div>
+
                     <div class="space">
                         <Input type="text" v-model="data.itemName" placeholder="Item Name" />
                     </div>
@@ -129,6 +134,7 @@
                 editModal : false,
                 isAdding : false,
                 purchase_orders: [],
+                suppliers: [],
                 editData : {
                     tagName : ''
                 },
@@ -249,7 +255,7 @@
                 }
                 this.setPage(1);
                 this.$refs.search.focus();
-            }
+            },
         },
    
         // async created(){
@@ -267,6 +273,18 @@
         created() {
             this.createdMethods();
         },
+        mounted() {
+        // Make an API call to fetch the data from the suppliers table
+        // Example using axios library:
+        axios.get('/api/suppliers')
+            .then(response => {
+            this.suppliers = response.data;
+            })
+            .catch(error => {
+            console.error(error);
+            });
+        },
+
         components : {
             deleteModal
         },

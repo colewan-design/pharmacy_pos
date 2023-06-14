@@ -52,7 +52,7 @@ class purchaseOrderController extends Controller
             'updated_at' => now(),
         ];
       
-        $purchase_order = supplier::where('purchaseOrderId', $request->purchaseOrderId)->update($data);
+        $purchase_order = purchaseOrder::where('purchaseOrderId', $request->purchaseOrderId)->update($data);
         return $purchase_order;
     }
 
