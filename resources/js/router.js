@@ -11,12 +11,16 @@ import table from './components/pages/table'
 import device from './components/pages/device'
 import cashin from './components/pages/cashin'
 import cashout from './components/pages/cashout'
+import suppliers from './components/pages/supplier'
+import purchase_order from './components/pages/purchaseorder'
+
 import account_expense from './components/pages/accountexpense'
 import kitchen_dashboard from './components/kitchen_dashboard'
 import bar_dashboard from './components/bar_dashboard'
 import outsourced_dashboard from './components/outsourced_dashboard'
 import new_kitchen_dashboard from './components/new_kitchen_dashboard'
 import table_dashboard from './components/table_dashboard'
+
 
 import user from './components/pages/user'
 import role from './components/pages/role'
@@ -48,6 +52,14 @@ const routes = [
     {
         path:'/department',
         component: department
+    },
+    {
+        path:'/suppliers',
+        component: suppliers
+    },
+    {
+        path:'/purchase_order',
+        component: purchase_order
     },
 
     {

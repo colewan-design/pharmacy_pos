@@ -15,32 +15,40 @@ class DepartmentTableSeeder extends Seeder
         DB::table('departments')->delete();
 
         DB::table('departments')->insert([
-            'departmentName' => "Kitchen",
-            'departmentDescription' => "Kitchen",
+            'departmentName' => "Mini-Grocery",
+            'departmentDescription' => "minigrocery",
             'departmentUse' =>'Y',
             'created_at' => now(),
             'updated_at' => NULL,
         ]);
 
         DB::table('departments')->insert([
-            'departmentName' => "Bar",
-            'departmentDescription' => "Bar",
+            'departmentName' => "Pharmacy",
+            'departmentDescription' => "pharmacy",
             'departmentUse' =>'Y',
             'created_at' => now(),
             'updated_at' => NULL,
         ]);
 
         DB::table('departments')->insert([
-            'departmentName' => "Cashier",
-            'departmentDescription' => "Cashier",
+            'departmentName' => "Clinic",
+            'departmentDescription' => "clinic",
             'departmentUse' =>'Y',
             'created_at' => now(),
             'updated_at' => NULL,
         ]);
 
         DB::table('departments')->insert([
-            'departmentName' => "Outsourced",
-            'departmentDescription' => "Outsourced",
+            'departmentName' => "Remittance",
+            'departmentDescription' => "remittance",
+            'departmentUse' =>'Y',
+            'created_at' => now(),
+            'updated_at' => NULL,
+        ]);
+
+        DB::table('departments')->insert([
+            'departmentName' => "Imported Goods",
+            'departmentDescription' => "imported goods",
             'departmentUse' =>'Y',
             'created_at' => now(),
             'updated_at' => NULL,

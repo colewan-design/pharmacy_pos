@@ -22,7 +22,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/departments', 'departmentController@getDepartment');
 Route::post('/create_department', 'departmentController@createDepartment');
 Route::post('/edit_department', 'departmentController@editDepartment');
-// Route::delete('/delete_department', 'departmentController@deleteDepartment');
+Route::delete('/delete_department', 'departmentController@deleteDepartment');
+
+// suppliers
+Route::get('/suppliers', 'supplierController@getSupplier');
+Route::post('/create_supplier', 'supplierController@createSupplier');
+Route::post('/edit_supplier', 'supplierController@editSupplier');
+Route::delete('/delete_supplier', 'supplierController@deleteSupplier');
+
+
+// purchase_orders
+Route::get('/purchase_orders', 'purchaseOrderController@getPurchaseOrder');
+Route::post('/create_purchase_order', 'purchaseOrderController@createPurchaseOrder');
+Route::post('/edit_purchase_order', 'purchaseOrderController@editPurchaseOrder');
+Route::delete('/delete_purchase_order', 'purchaseOrderController@deletePurchaseOrder');
 
 
 // category
@@ -32,6 +45,12 @@ Route::post('/edit_category', 'categoryController@editCategory');
 Route::get('/category_departments', 'categoryController@getCategoryDepartment');
 Route::delete('/delete_category', 'categoryController@deleteCategory');
 
+// brand
+Route::get('/brands', 'brandController@getBrand');
+Route::post('/create_brand', 'brandController@createBrand');
+Route::post('/edit_brand', 'brandController@editBrand');
+Route::get('/brand_categories', 'brandController@getBrandCategory');
+Route::delete('/delete_brand', 'brandController@deleteBrand');
 
 // item
 Route::get('/items', 'itemController@getItem');
@@ -40,8 +59,8 @@ Route::post('/edit_item', 'itemController@editItem');
 Route::get('/item_categories', 'itemController@getItemCategory');
 Route::delete('/delete_item', 'itemController@deleteItem');
 
-//table
-Route::get('/tables', 'tableController@getTable');
+//customer orders
+Route::get('/customer_order', 'tableController@getTable');
 Route::post('/create_table', 'tableController@createTable');
 Route::post('/edit_table', 'tableController@editTable');
 // Route::delete('/delete_table, 'tableController@deleteTable');
@@ -64,31 +83,12 @@ Route::get('/dashboard_all_orders_this_day', 'dashboardController@getDashboardAl
 Route::get('/dashboard_all_tables_this_day', 'dashboardController@getDashboardAllTableThisDay');
 Route::get('/dashboard_all_tables', 'dashboardController@getDashboardAllTable');
 Route::get('/total_all/{transactionId}', 'dashboardController@getTotal');
-Route::get('/dashboard_all_waiters', 'dashboardController@getDashboardAllWaiters');
-Route::post('/change_table', 'dashboardController@changeTable');
+Route::get('/dashboard_all_users', 'dashboardController@getDashboardAllUsers');
+Route::get('/dashboard_all_users', 'dashboardController@getDashboardAllUsers');
 
-//dashboard update status served
-Route::post('/kitchen_order_served/{transactionId}', 'dashboardController@editServedKitchen');
-Route::post('/bar_order_served/{transactionId}', 'dashboardController@editServedBar');
-Route::post('/outsorced_order_served/{transactionId}', 'dashboardController@editServedOutsourced');
+//customer orders
+Route::get('/transactions', 'transactionsController@getTransactions');
 
-
-//kitchen dashboard
-Route::get('/dashboard_kitchen_all', 'kitchenDashboardController@getDashboardKitchenAll');
-Route::get('/dashboard_kitchen_pending', 'kitchenDashboardController@getDashboardKitchenPending');
-Route::get('/dashboard_kitchen_success', 'kitchenDashboardController@getDashboardKitchenSuccess');
-Route::get('/dashboard_kitchen_processing', 'kitchenDashboardController@getDashboardKitchenProcessing');
-Route::get('/dashboard_kitchen_tables', 'kitchenDashboardController@getDashboardKitchenTable');
-Route::post('/print_update_kitchen_processing/{transactionId}', 'kitchenDashboardController@editPendingOrderStatus');
-Route::post('/kitchen_order_served_status/{orderId}', 'kitchenDashboardController@editOrderServedStatus');
-
-//bar dashboard
-Route::get('/dashboard_bar_all', 'barDashboardController@getDashboardBarAll');
-Route::get('/dashboard_bar_pending', 'barDashboardController@getDashboardBarPending');
-Route::get('/dashboard_bar_success', 'barDashboardController@getDashboardBarSuccess');
-Route::get('/dashboard_bar_processing', 'barDashboardController@getDashboardBarProcessing');
-Route::get('/dashboard_bar_tables', 'barDashboardController@getDashboardBarTable');
-Route::post('/print_update_bar_processing/{transactionId}', 'barDashboardController@editPendingOrderStatus');
 
 //outsourced dashboard
 Route::get('/dashboard_outsourced_all', 'outsourcedDashboardController@getDashboardOutsourcedAll');
@@ -184,8 +184,8 @@ Route::get('/get_expense/{id}', 'expenseController@getExpense');
 Route::post('/update_expense', 'expenseController@updateExpense');
 Route::get('/expense_summary/{date1}/{date2}/{preparedBy}/{reviewedBy}', 'expenseController@expenseSummary');
 
-// raw materials
-Route::post('/save_raw_mat', 'rawMatsController@saveRawMaterial');
+// raw Stocks
+Route::post('/save_raw_mat', 'rawMatsController@saveRawStock');
 Route::get('/fetch_raw_mats', 'rawMatsController@getRawMats');
 Route::post('/save_raw_mat_batch', 'rawMatsController@saveRawMatBatch');
 Route::get('/fetch_raw_mat_inv/{id}', 'rawMatsController@getRawMatInventory');

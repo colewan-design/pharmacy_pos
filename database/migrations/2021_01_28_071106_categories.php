@@ -20,7 +20,7 @@ class Categories extends Migration
             $table->text('categoryDescription');
             $table->text('categoryStyle')->default('success')->comment('Button Color Hex');
             $table->char('categoryUse')->default('Y')->comment('Y/N');
-            $table->char('categoryIsDeleted')->default('N')->comment('Y/N');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
