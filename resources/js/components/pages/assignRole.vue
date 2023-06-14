@@ -92,6 +92,7 @@ export default {
             {resourceName: 'Department', read: false, write: false, update: false, delete: false, name: 'department', icon: 'ios-people'},
             {resourceName: 'Supplier', read: false, write: false, update: false, delete: false, name: 'suppliers', icon: 'ios-people'},
             {resourceName: 'Purchase Order', read: false, write: false, update: false, delete: false, name: 'purchase_order', icon: 'ios-people'},
+            {resourceName: 'Delivered Stock', read: false, write: false, update: false, delete: false, name: 'delivered_stock', icon: 'ios-people'},
             
             {resourceName: 'Item', read: false, write: false, update: false, delete: false, name: 'item', icon: 'ios-pricetags'},
             {resourceName: 'Table', read: false, write: false, update: false, delete: false, name: 'table', icon: 'ios-radio-button-off'},
@@ -116,6 +117,7 @@ export default {
             {resourceName: 'Department', read: false, write: false, update: false, delete: false, name: 'department', icon: 'ios-people'},
             {resourceName: 'Supplier', read: false, write: false, update: false, delete: false, name: 'suppliers', icon: 'ios-people'},
             {resourceName: 'Purchase Order', read: false, write: false, update: false, delete: false, name: 'purchase_order', icon: 'ios-people'},
+            {resourceName: 'Delivered Stock', read: false, write: false, update: false, delete: false, name: 'delivered_stock', icon: 'ios-people'},
 
 
             {resourceName: 'Item', read: false, write: false, update: false, delete: false, name: 'item', icon: 'ios-pricetags'},

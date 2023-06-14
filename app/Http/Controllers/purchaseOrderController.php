@@ -56,7 +56,7 @@ class purchaseOrderController extends Controller
         return $purchase_order;
     }
 
-    public function deleteSupplier(Request $request)
+    public function deletePurchaseOrder(Request $request)
     {
      $data =purchaseOrder::find($request->purchaseOrderId);
      return  $data->delete();

@@ -13,6 +13,8 @@ import cashin from './components/pages/cashin'
 import cashout from './components/pages/cashout'
 import suppliers from './components/pages/supplier'
 import purchase_order from './components/pages/purchaseorder'
+import delivered_stock from './components/pages/deliveredstock'
+import bad_order from './components/pages/badorder'
 
 import account_expense from './components/pages/accountexpense'
 import kitchen_dashboard from './components/kitchen_dashboard'
@@ -60,6 +62,14 @@ const routes = [
     {
         path:'/purchase_order',
         component: purchase_order
+    },
+    {
+        path:'/delivered_stock',
+        component: delivered_stock
+    },
+    {
+        path:'/bad_order',
+        component: bad_order
     },
 
     {

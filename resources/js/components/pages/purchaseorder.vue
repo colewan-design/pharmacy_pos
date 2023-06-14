@@ -35,6 +35,8 @@
                                 <td>
                                     <Button type="info" size="small" v-if="permission.find(item => item.name === 'purchase_order').update === true" @click="showEditModal(purchase_order,i)">Edit</Button>
                                     <Button type="error" size="small" v-if="permission.find(item => item.name === 'purchase_order').delete === true" @click="showDeletingModal(purchase_order,i)" icon="md-add"><Icon type=""  />Delete</Button>
+                                    <!-- <Button type="primary" size="small" v-if="permission.find(item => item.name === 'purchase_order').update === true" @click="markAsDelivered(purchase_order, i)">Mark as Delivered</Button> -->
+                                    <Button type="info" size="small" v-if="permission.find(item => item.name === 'purchase_order').update === true" @click="showMarkAsDeliveredModal(purchase_order,i)">Mark as delivered</Button>
                                 </td>
                             </tr>
                             <!-- ITEMS -->
@@ -109,8 +111,47 @@
                     <div slot="footer">
                         <Button type="default" @click="editModal=false">Close</Button>
                         <Button type="primary" @click="editPurchaseOrder" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing...' : 'Edit Purchase Order'}}</Button>
+                    
                     </div>
                 </Modal>
+                <deleteModal></deleteModal>
+
+               <!-- tag Mark as delivered modal -->
+               <Modal
+                v-model="markAsDeliveredModal"
+                title="Mark As Delivered"
+                :mask-closable="false"
+                :closable="false"
+                >
+                <div class="space">
+                    <Input type="text" v-model="editData.itemName" placeholder="Item Name" disabled />
+                </div>
+                <div class="space">
+                    <Input type="text" v-model="editData.itemQty" placeholder="Item Quantity" />
+                </div>
+
+                <Card>
+                    <p slot="title">Bad order</p>
+                    <Card>
+                    <div>
+                        <div class="space">
+                        <Input type="text" v-model="editData.badOrderQty" placeholder="Bad Order Quantity" />
+                        </div>
+                    </div>
+                    </Card><br>
+                    <div class="space">
+                    <Input type="text" v-model="editData.reason" placeholder="Reason" />
+                    </div>
+                </Card>
+
+                <div slot="footer">
+                    <Button type="default" @click="markAsDeliveredModal = false">Close</Button>
+                    <Button type="primary" @click="markPurchaseOrderDelivered" :disabled="isAdding" :loading="isAdding">
+                    {{ isAdding ? 'Inserting...' : 'Mark Order as Delivered' }}
+                    </Button>
+                </div>
+                </Modal>
+
             </div>
         </div>
     </div>
@@ -132,10 +173,14 @@
                 },
                 addModal : false,
                 editModal : false,
+                markAsDeliveredModal : false,
                 isAdding : false,
                 purchase_orders: [],
                 suppliers: [],
                 editData : {
+                    tagName : ''
+                },
+                markAsDeliveredModalData : {
                     tagName : ''
                 },
                 index : -1,
@@ -229,6 +274,72 @@
                     }
                 }
             },
+            async markPurchaseOrderDelivered() {
+            if (this.permission.find((item) => item.name === 'purchase_order').update === true) {
+                // Deduct the bad order quantity from the item quantity
+                const itemQty = parseInt(this.editData.itemQty) - parseInt(this.editData.badOrderQty);
+
+                // Copy the data from the purchase order to the delivered stocks table
+                const deliveredStock = {
+                purchaseOrderId: this.editData.purchaseOrderId,
+                supplierName: this.editData.supplierName,
+                itemName: this.editData.itemName,
+                itemDescription: this.editData.itemDescription,
+                itemQty: itemQty.toString(), // Save the adjusted item quantity to the delivered stocks table
+                fromLocation: this.editData.fromLocation,
+                };
+
+                // Copy the data from the purchase order to the bad orders table
+                const badOrder = {
+                purchaseOrderId: this.editData.purchaseOrderId,
+                supplierName: this.editData.supplierName,
+                itemName: this.editData.itemName,
+                itemDescription: this.editData.itemDescription,
+                itemQty: this.editData.badOrderQty, // Save the bad order quantity to the bad orders table
+                fromLocation: this.editData.fromLocation,
+                reason: this.editData.reason, // Add the reason for the bad order
+                };
+
+                try {
+                // Make API requests to save the data in the respective tables
+                const [deliveredResponse, badOrderResponse] = await Promise.all([
+                    axios.post('/api/mark_as_delivered', deliveredStock),
+                    axios.post('/api/save_bad_order', badOrder),
+                ]);
+
+                // Handle success responses
+                console.log('Stock marked as delivered:', deliveredResponse.data);
+                console.log('Bad order saved:', badOrderResponse.data);
+
+                // Show success message
+                    this.success('Stock marked as delivered successfully');
+
+                // Optionally, you can remove the purchase order from the current table if needed
+                this.purchase_orders.splice(this.index, 1);
+
+                // Reset the form data
+                this.editData = {
+                    purchaseOrderId: '',
+                    supplierName: '',
+                    itemName: '',
+                    itemDescription: '',
+                    itemQty: '',
+                    fromLocation: '',
+                    badOrderQty: '',
+                    reason: '',
+                };
+
+                // Close the modal
+                this.markAsDeliveredModal = false;
+                } catch (error) {
+                // Handle error responses
+                console.error('Error marking stock as delivered:', error);
+                }
+            }
+            },
+
+
+            
 
             showEditModal(purchase_order, index){
                 let obj ={
@@ -241,6 +352,19 @@
                 }
                 this.editData = obj
                 this.editModal = true
+                this.index = index
+            },
+            showMarkAsDeliveredModal(purchase_order, index){
+                let obj ={
+                    purchaseOrderId: purchase_order.purchaseOrderId,
+                    supplierName : purchase_order.supplierName,
+                    itemName : purchase_order.itemName,
+                    itemDescription : purchase_order.itemDescription,
+                    itemQty : purchase_order.itemQty,
+                    fromLocation : purchase_order.fromLocation,
+                }
+                this.editData = obj
+                this.markAsDeliveredModal = true  // Update this line
                 this.index = index
             },
 
@@ -256,6 +380,30 @@
                 this.setPage(1);
                 this.$refs.search.focus();
             },
+                markAsDelivered(purchase_order, index) {
+                // Copy the data from the purchase order to the delivered stocks table
+                // Example logic:
+                const deliveredStock = {
+                purchaseOrderId: purchase_order.purchaseOrderId,
+                supplierName: purchase_order.supplierName,
+                itemName: purchase_order.itemName,
+                itemDescription: purchase_order.itemDescription,
+                itemQty: purchase_order.itemQty,
+                fromLocation: purchase_order.fromLocation
+                };
+
+                axios.post('/api/mark_as_delivered', deliveredStock)
+                .then(response => {
+                    // Handle success response
+                    console.log('Stock marked as delivered:', response.data);
+                    // Optionally, you can remove the purchase order from the current table if needed
+                    this.collection.splice(index, 1);
+                })
+                .catch(error => {
+                    // Handle error response
+                    console.error('Error marking stock as delivered:', error);
+                });
+            }
         },
    
         // async created(){

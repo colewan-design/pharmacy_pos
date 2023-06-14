@@ -36,6 +36,18 @@ Route::get('/purchase_orders', 'purchaseOrderController@getPurchaseOrder');
 Route::post('/create_purchase_order', 'purchaseOrderController@createPurchaseOrder');
 Route::post('/edit_purchase_order', 'purchaseOrderController@editPurchaseOrder');
 Route::delete('/delete_purchase_order', 'purchaseOrderController@deletePurchaseOrder');
+Route::post('/mark_as_delivered', 'deliveredStockController@createDeliveredStock');
+
+// delivered_stocks
+Route::get('/delivered_stocks', 'deliveredStockController@getDeliveredStock');
+Route::post('/create_delivered_stock', 'deliveredStockController@createDeliveredStock');
+Route::post('/edit_delivered_stock', 'deliveredStockController@editDeliveredStock');
+Route::delete('/delete_delivered_stock', 'deliveredStockController@deleteDeliveredStock');
+
+// bad_orders
+Route::get('/bad_orders', 'badOrderController@getBadOrder');
+Route::post('/save_bad_order', 'badOrderController@createBadOrder');
+
 
 
 // category

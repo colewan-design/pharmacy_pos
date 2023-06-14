@@ -31,6 +31,7 @@
                                 <td>
                                     <Button type="info" size="small" v-if="permission.find(item => item.name === 'category').update === true" @click="showEditModal(category,i)" icon="md-add">Edit</Button>
                                     <Button type="error" size="small" v-if="permission.find(item => item.name === 'category').delete === true" @click="showDeletingModal(category,i)" icon="md-add"><Icon type=""  />Delete</Button>
+                                    
                                 </td>
                             </tr>
                             <!-- ITEMS -->
@@ -104,7 +105,7 @@
                     <div class="space">
                         <Input type="text" v-model="editData.categoryDescription" placeholder="Category Description" />
                     </div>
-                     <div class="space">
+                     <!-- <div class="space">
                             <Select v-model="editData.categoryStyle" placeholder ="Button Color" style="width:200px">
                             <Option value="#FFA07A">LightSalmon</Option>
                             <Option value="#FFB6C1">LightPink</Option>
@@ -120,7 +121,7 @@
                             <Option value="#F4A460">SandyBrown</Option>
                             <Option value="#808080">Gray</Option>
                         </Select>
-                    </div>
+                    </div> -->
                     <div class="space">
                             <Select v-model="editData.categoryUse" style="width:200px">
                             <Option value="Y">Y</Option>
