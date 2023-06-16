@@ -87,9 +87,7 @@
                     <Breadcrumb :style="{margin: '20px 0'}">
                         <BreadcrumbItem>Dashboard</BreadcrumbItem>
                     </Breadcrumb>
-                        <!-- <Button @click="kitchenDrawer = true" type="primary">Kitchen</Button>
-                        <Button @click="barDrawer = true" type="primary">Bar</Button>
-                        <Button @click="outSourcedDrawer = true" type="primary">Outsourced</Button> -->
+                    
                         <Button @click="paymentModal = true" type="primary">Payment</Button>
                         <Button @click="cashinModal = true" type="primary">CashIn</Button>
                         <Button @click="cashoutModal = true" type="primary">CashOut</Button>
@@ -115,7 +113,7 @@
                                                                 <th>Item</th>
                                                                 <th>Price</th>
                                                                 <th>Total</th>
-                                                                <th>Note</th>
+                                                           
                                                                 <th>Action</th>
                                                             </tr>
                                                             <!-- TABLE TITLE -->
@@ -125,7 +123,7 @@
                                                                 <td><h6>{{order.itemName}}</h6></td>
                                                                 <td>₱{{formatPrice(order.orderPrice)}}</td>
                                                                 <td>₱{{formatPrice(order.totalPrice)}}</td>
-                                                                <td><h6>{{order.itemNote}}</h6></td>
+                                                            
                                                                 <td>
                                                                 <Button type="error" v-on:click="removeOrder(i, order.itemId)">Remove</Button>
                                                                 </td>
@@ -157,25 +155,18 @@
                                                                         <Input type="text" v-model="data_transaction.transactionSlipNo" placeholder="Slip Number" />
                                                                         </div>
                                                                         <div class="col-lg-12 mb-3">
-                                                                        <Select v-model="data_transaction.transactionTableId" placeholder="Select Table">
-                                                                                <Option :value="table.tableId" v-for="(table, i) in tables" :key="i">
-                                                                                    {{table.tableName}}
-                                                                                </Option>
-                                                                                <!-- might use for later -->
-                                                                                <!-- v-if="table.transactionTableId  == NULL || table.transactionStatus == 'success' " -->
-                                                                        </Select>
+                                                                       
                                                                         </div>
                                                                         <div class="col-lg-12 mb-3">
                                                                         <Select v-model="data_transaction.transactionServedBy" placeholder="Served By" >
                                                                             <Option value="">Select One</Option>
-                                                                            <Option :value="waiter.fullname" v-for="(waiter, i) in waiters" :key="i">
-                                                                                {{waiter.fullname}}
+                                                                            <Option :value="user.fullname" v-for="(user, i) in users" :key="i">
+                                                                                {{user.fullname}}
                                                                             </Option>
+                                                                        
                                                                         </Select>
                                                                         </div>
-                                                                        <div class="col-lg-12 mb-3">
-                                                                        <Input type="text" v-model="data_transaction.transactionNote" placeholder="Slip Note" />
-                                                                        </div>
+                                                                
                                                                     </div>
                                                                 </div>
                                                             <div class="modal-footer">
@@ -187,7 +178,6 @@
 
                                                     <!-- <Button type="success" @click="placeOrder" >Add Order</Button> -->
                                                     <Button type="success" data-toggle="modal" data-target="#addOrderModal">Add Order</Button>
-                                                    <Button type="warning">Remove</Button>
                                                     <Button type="error" @click="removeAllOrders">Remove All</Button>
                                                     <template>
                                                     <div style="float:right">
@@ -206,69 +196,52 @@
                                         <template>
                                             <Row :gutter="32">
                                                 <Col span="150" class="demo-tabs-style2">
-                                                 <!-- <AutoComplete
-                                                    v-model="search"
-                                                    @on-search="handleSearch2"
-                                                    placeholder="Search Here!"
-                                                    style="width:880px">
-                                                <Option v-for="item in items" :value="item.itemName" :key="item.itemId">{{ item.itemName }}</Option>
-                                                </AutoComplete> -->
+                                             
                                                     <Input class="mb-3" v-model="search" placeholder="Search Here!" clearable style="width: 100%" ref="searchbar" />
                                                     <Tabs type="card">
                                                         <TabPane label="Main" width="1000px">
                                                             <Scroll height="360">
-                                                                <!--<Card dis-hover v-for="(item, index) in list1" :key="index" style="margin: 32px 0">-->
+                                                               
                                                                 <div class="grid-container">
-                                                                    <!-- <Button class ="grid-item" v-bind:disabled="buttonClickedId === item.itemId" v-bind:id="'cart-' + item.itemId" v-on:click="addOrder(item.itemId,item.itemDescription,item.categoryId,item.orderQty ? item.orderQty : 1 ,item.itemPrice)" :style="{ size:'11px', height:'100px', width:'250px'}" dis-hover v-for="(item, i) in filteredList" :key="'cart1-'+i+'-'+item.itemName" > -->
-                                                                    <!-- <a class="card shadow p-2 mb-1 bg-white rounded" v-for="(item, i) in filteredList"
-                                                                        :key="'cart1-'+i+'-'+item.itemName"
-                                                                        v-bind:disabled="buttonClickedId.find(id => id === item.itemId) !== undefined || item.itemQty <= 0"
-                                                                        v-bind:id="'cart-' + item.itemId" @click="showQtyModal(item,i,item.categoryId)"
-                                                                        :style="{ size:'11px', height:'90px', width:'250px'}" dis-hover> -->
-                                                                    <a class="card shadow p-2 mb-1 bg-white rounded" v-for="(item, i) in filteredList"
-                                                                        :key="'cart1-'+i+'-'+item.itemName"
-                                                                        v-bind:id="'cart-' + item.itemId" @click="showQtyModal(item,i,item.categoryId)"
-                                                                        :style="{ size:'11px', height:'90px', width:'250px'}" dis-hover>
-                                                                            <div class="text-center">
-                                                                                <h6 class="card-title mb-2">{{ item.itemName }}</h6>
-                                                                                <small class="h6">PRICE ₱{{formatPrice(item.itemPrice)}}</small><br>
-                                                                                <!-- <InputNumber :max="10" :min="1" v-model="item.orderQty" ></InputNumber> -->
-                                                                                <!-- <h6>{{item.itemQty ? item.itemQty : 0}} </h6>
-                                                                                <small class="h6"> Orders available</small> -->
-                                                                            </div>
-                                                                    </a>
+                                                                    
+                                                                    <table class="table" style="cursor: pointer;">
+                                                                    <tbody>
+                                                                        <tr v-for="(item, i) in filteredList" :key="'cart1-'+i+'-'+item.itemName" @click="showQtyModal(item, i, item.categoryId)">
+                                                                            <td>{{ item.itemName }}</td>
+                                                                            <td>PRICE ₱{{ formatPrice(item.itemPrice) }}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    </table>
+
                                                                 </div>
                                                                 <!--</Card>-->
                                                             </Scroll>
                                                         </TabPane>
-                                                        <TabPane  v-for="(category,i) in categories" :key="'category-'+i"  :label="category.categoryName" v-if="categories.length"  width="1000px">
-                                                            <Scroll height="360">
-                                                                <!--<Card dis-hover v-for="(item, index) in list1" :key="index" style="margin: 32px 0">-->
-                                                                <div class="grid-container">
-                                                                    <!-- <Button class ="grid-item" v-bind:disabled="buttonClickedId === item.itemId" v-bind:id="'cart2-' + item.itemId" @click="addOrder(item.itemId,item.itemDescription,category.categoryId,item.orderQty ? item.orderQty : 1 ,item.itemPrice)" :style="{background: category.categoryStyle, size:'11px', height:'100px', width:'250px'}" dis-hover v-for="(item, index) in items" :key="'cart3-'+index" v-if="item.categoryId == category.categoryId"> -->
-                                                                    <!-- <a class="card shadow p-2 mb-1 rounded" v-for="(item, index) in items" :key="'cart3-'+index"
-                                                                        v-bind:disabled="buttonClickedId.find(id => id === item.itemId) !== undefined || item.itemQty <= 0" v-bind:id="'cart-' + item.itemId"
-                                                                        @click="showQtyModal(item,index,category.categoryId)"
-                                                                        :style="{background: category.categoryStyle, size:'11px', height:'90px', width:'250px'}"
-                                                                        dis-hover
-                                                                        v-if="item.categoryId == category.categoryId"> -->
-                                                                    <a class="card shadow p-2 mb-1 rounded" v-for="(item, index) in items" :key="'cart3-'+index"
-                                                                        @click="showQtyModal(item,index,category.categoryId)"
-                                                                        :style="{background: category.categoryStyle, size:'11px', height:'90px', width:'250px'}"
-                                                                        dis-hover
-                                                                        v-if="item.categoryId == category.categoryId">
-                                                                            <div class="text-center">
-                                                                                <h6 class="card-title mb-2">{{ item.itemName }}</h6>
-                                                                                <small class="h6">PRICE ₱{{formatPrice(item.itemPrice)}}</small><br>
-                                                                                <!-- <InputNumber :max="10" :min="1" v-model="item.orderQty" v-bind:key="item.itemId" ></InputNumber> -->
-                                                                                <!-- <h4 class="card-title">{{item.itemQty ? item.itemQty : 0}}</h4>
-                                                                                <small class="h6">Orders available</small> -->
-                                                                            </div>
-                                                                    </a>
-                                                                </div>
-                                                                <!--</Card>-->
-                                                            </Scroll>
+                                                        <TabPane v-for="(department, i) in departments" :key="'department-'+i" :label="department.departmentName" v-if="departments.length" width="1000px">
+                                                        <Scroll height="360">
+                                                            <table class="table" style="cursor: pointer;">
+                                                                <tbody>
+                                                                    
+                                                                    <template v-for="(category, index) in categories">
+                                                                    <template v-if="department.departmentId === category.departmentId">
+                                                                        
+                                                                        <template v-for="(item, index) in items">
+                                                                           
+                                                                        <tr v-if="category.categoryId === item.categoryId" @click="showQtyModal(item, index, item.categoryId)">
+                                                                            <td>{{ item.itemName }}</td>
+                                                                            <td>PRICE ₱{{ formatPrice(item.itemPrice) }}</td>
+                                                                        </tr>
+                                                                        </template>
+                                                                    </template>
+                                                                    </template>
+                                                                </tbody>
+                                                                </table>
+
+                                                        </Scroll>
                                                         </TabPane>
+
+
+
                                                     </Tabs>
                                                 </Col>
                                             </Row>
@@ -280,135 +253,8 @@
                     </div>
                 </Card>
 
-                <Drawer
-                    title="Kitchen Orders"
-                    v-model="kitchenDrawer"
-                    width="720"
-                    :mask-closable="false"
-                    placement="left"
-                    >
-                    <div style="min-height: 200px;" >
-                        <template >
-                            <div class="demo-split" >
-                                <Scroll height="900">
-                                <Row style="background:#eee;padding:20px">
-                                <template >
-                                        <template >
-                                            <!-- <div style="background:#eee;padding: 20px"  :bordered="false"  v-for="(table,i) in kitchen_tables"  :key="i" v-bind:key="table.tableId"  > -->
-                                                <div style="background:#eee;padding: 20px"  :bordered="false"  v-for="(table,i) in kitchen_tables"  v-bind:key="'table-'+table.transactionId"  >
-                                                <Card  >
-                                                    <p slot="title">{{table.tableName}}</p>
-                                                    <CheckboxGroup  v-model="kitchenCheckedStatus" :key="'transact-'+table.transactionTableId">
-                                                            <Checkbox label="Pending"  kitchenCheckedStatus></Checkbox>
-                                                            <Checkbox label="Processing"  kitchenCheckedStatus></Checkbox>
-                                                            <Checkbox label="Served"  kitchenCheckedStatus></Checkbox>
-
-                                                            <!-- <Button type="info" @click="servedKitchen(kitchen_tables,table.transactionId)">Served</Button> -->
-                                                            <Button type="info" @click="confirmServeKitchenModal = true; confirmServeKitchenData.table = kitchen_tables; confirmServeKitchenData.transac = table.transactionId;">Served</Button>
-                                                    </CheckboxGroup>
-                                                    <template  v-for="(thisOrder,i) in kitchen_orders"   v-if="thisOrder.tableId == table.tableId">
-                                                        <List border size="small" >
-                                                            <ListItem>{{thisOrder.itemName}}</ListItem>
-                                                        </List>
-                                                    </template>
-                                                </Card>
-
-                                            </div>
-                                         </template>
-                                </template>
-                                </Row>
-                                </Scroll>
-                            </div>
-                        </template>
-                    </div>
-
-                </Drawer>
-                <Drawer
-                title="Bar Orders"
-                v-model="barDrawer"
-                width="720"
-                :mask-closable="false"
-                placement="right"
-                >
-
-                <div style="min-height: 200px;" >
-                        <template >
-                            <div class="demo-split" >
-                                <Scroll height="900">
-                                <Row style="background:#eee;padding:20px">
-                                <template >
-                                        <template >
-                                            <div style="background:#eee;padding: 20px"  :bordered="false"  v-for="(table,i) in bar_tables"  :key="i" v-bind:key="'table1-'+table.tableId"  >
-                                                <Card  >
-                                                    <p slot="title">{{table.tableName}}</p>
-                                                    <CheckboxGroup v-model="barCheckedStatus" v-bind:key="'transact1-'+table.transactionTableId">
-                                                            <Checkbox label="Pending"  barCheckedStatus></Checkbox>
-                                                            <Checkbox label="Processing"  barCheckedStatus></Checkbox>
-                                                            <Checkbox label="Served"  barCheckedStatus></Checkbox>
-                                                            <!-- <Button type="info" @click="servedBar(bar_tables,table.transactionId)">Served</Button> -->
-                                                            <Button type="info" @click="confirmServeBarModal = true; confirmServeBarData.table = bar_tables; confirmServeBarData.transac = table.transactionId;">Served</Button>
-                                                    </CheckboxGroup>
-                                                    <template  v-for="(thisOrder,i) in bar_orders"   v-if="thisOrder.tableId == table.tableId">
-
-                                                    <List border size="small" >
-                                                        <ListItem>{{thisOrder.itemName}}</ListItem>
-                                                    </List>
-                                                    </template>
-                                                </Card>
-
-                                            </div>
-                                         </template>
-                                </template>
-                                </Row>
-                                </Scroll>
-                            </div>
-                        </template>
-                    </div>
-                </Drawer>
-                <Drawer
-                title="Outsourced Orders"
-                v-model="outSourcedDrawer"
-                width="720"
-                :mask-closable="false"
-                placement="right"
-                >
-
-                <div style="min-height: 200px;" >
-                        <template >
-                            <div class="demo-split" >
-                                <Scroll height="900">
-                                <Row style="background:#eee;padding:20px">
-                                <template >
-                                        <template >
-                                            <!-- <div style="background:#eee;padding: 20px"  :bordered="false"  v-for="(table,i) in outsourced_tables"  :key="i" v-bind:key="table.tableId"  > -->
-                                            <div style="background:#eee;padding: 20px"  :bordered="false"  v-for="(table,i) in outsourced_tables" v-bind:key="'table2'+table.transactionId"  >
-                                                <Card  >
-                                                    <p slot="title">{{table.tableName}}</p>
-                                                    <CheckboxGroup v-model="barCheckedStatus" v-bind:key="'transact2-'+table.transactionTableId">
-                                                            <Checkbox label="Pending"  barCheckedStatus></Checkbox>
-                                                            <Checkbox label="Processing"  barCheckedStatus></Checkbox>
-                                                            <Checkbox label="Served"  barCheckedStatus></Checkbox>
-                                                            <!-- <Button type="info" @click="servedBar(outsourced_tables,table.transactionId)">Served</Button> -->
-                                                            <Button type="info" @click="confirmServeOutModal = true; confirmServeOutData.table = outsourced_tables; confirmServeOutData.transac = table.transactionId;">Served</Button>
-                                                    </CheckboxGroup>
-                                                    <template  v-for="(thisOrder,i) in outsourced_orders"   v-if="thisOrder.tableId == table.tableId">
-
-                                                    <List border size="small" >
-                                                        <ListItem>{{thisOrder.itemName}}</ListItem>
-                                                    </List>
-                                                    </template>
-                                                </Card>
-
-                                            </div>
-                                         </template>
-                                </template>
-                                </Row>
-                                </Scroll>
-                            </div>
-                        </template>
-
-                    </div>
-                </Drawer>
+                
+              
                 <Modal v-model="paymentModal" fullscreen title="Payment">
                     <Scroll height="900">
                         <!-- <Row style="background:#eee;padding:10px"> -->
@@ -492,40 +338,11 @@
                                         </div>
                                     </div> -->
 
-                                    <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                    <!-- <div class="tab-pane" id="tabs-2" role="tabpanel">
                                         <div class="container-fluid">
                                             <div class="row">
-                                                <!-- <div class="col-lg-4" :bordered="false" v-for="(table,i) in all_tables"  :key="i" v-bind:key="'table2-'+table.tableId" v-if="table.tableNumber.substring(0, 2) == 'DA'" > -->
-                                                <div class="col-lg-4" :bordered="false" v-for="(table,i) in all_tables"  :key="i" v-bind:key="'table2-'+table.tableId">
-                                                    <div class="card shadow p-3 mb-5 bg-white rounded" v-if="table.paymentId == null || table.paymentId == undefined">
-                                                        <div class="card-body">
-                                                            <a @click="showChangeTableModal(table)">
-                                                                <h6 class="card-title mb-5">{{table.tableName}}
-                                                                    <span class="float-right">Transaction Slip No. {{ table.transactionSlipNo }}</span>
-                                                                </h6>
-                                                            </a>
-                                                            <template v-for="(thisOrder,i) in all_orders">
-                                                                <ul class="list-group" v-if="thisOrder.tableId == table.tableId && table.transactionId == thisOrder.transactionId">
-                                                                    <li class="list-group-item">
-                                                                        <h6>
-                                                                            <a @click="removePlacedOrder(i,thisOrder.orderId)"><Icon type="md-trash" size ="25"/></a>
-                                                                            {{thisOrder.itemName}} ({{ thisOrder.orderQty }})
-                                                                            <span class="float-right"> P{{ thisOrder.orderTotal }}</span>
-                                                                        </h6>
-                                                                    </li>
-                                                                </ul>
-                                                            </template>
-                                                            <br/>
-                                                            <h6 class ="list-group-item mb-3">Total Amount <span class="float-right">P{{ ordersTotal[i] }}</span></h6>
-                                                            <Button type="success" @click="showTenderedModal(table,i,ordersTotal[i])" long v-if="table.paymentId == null">CHECKOUT BILL</Button><br/><br/>
-                                                            <Button type="info" @click="printBillOut(table)" long v-if="table.paymentId == null">BILL OUT</Button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                           
+                                    <div class="tab-pane" id="tabs-3" role="tabpanel">
                                             <div class="container-fluid">
                                                 <div class="row">
                                                     <div class="col-lg-4" :bordered="false" v-for="(table,i) in all_tables"  :key="i" v-bind:key="'table3-'+table.tableId" v-if="table.tableNumber.substring(0, 2) == 'SH'" >
@@ -727,10 +544,7 @@
                         :parser="value => value.replace(/\$\s?|(,*)/g, '')"
                         v-model="data_cashin.amount"
                     style="width: 100%;"/>
-                    <div class="space">
-                    <h3>Note</h3>
-                    <Input type="text" v-model="data_cashin.note" />
-                    </div>
+                   
                 </div>
                 <div slot="footer">
                     <Button @click="cashinModal = false" >Close</Button>
@@ -751,10 +565,6 @@
                         :parser="value => value.replace(/\$\s?|(,*)/g, '')"
                         v-model="data_cashout.amount"
                     style="width: 100%;"/>
-                    <div class="space">
-                    <h3>Note</h3>
-                    <Input type="text" v-model="data_cashout.note" />
-                    </div>
                 </div>
                 <div slot="footer">
                     <Button @click="cashoutModal = false" >Close</Button>
@@ -1038,54 +848,6 @@
                     </div>
                 </Modal>
 
-                <Modal
-                    v-model="confirmServeKitchenModal"
-                    width="360">
-                    <p slot="header" style="color:#f60;text-align:center">
-                        <Icon type="ios-information-circle"></Icon>
-                        <span>Serve confirmation</span>
-                    </p>
-                    <div style="text-align:center">
-                        <p>Mark as served?</p>
-                    </div>
-                    <div slot="footer">
-                        <Button @click="confirmServeKitchenModal = false" size="large">Close</Button>
-                        <Button type="success" size="large" @click="confirmServeKitchen">Confirm</Button>
-                    </div>
-                </Modal>
-
-                <Modal
-                    v-model="confirmServeBarModal"
-                    width="360">
-                    <p slot="header" style="color:#f60;text-align:center">
-                        <Icon type="ios-information-circle"></Icon>
-                        <span>Serve confirmation</span>
-                    </p>
-                    <div style="text-align:center">
-                        <p>Mark as served?</p>
-                    </div>
-                    <div slot="footer">
-                        <Button @click="confirmServeBarModal = false" size="large">Close</Button>
-                        <Button type="success" size="large" @click="confirmServeBar">Confirm</Button>
-                    </div>
-                </Modal>
-
-                <Modal
-                    v-model="confirmServeOutModal"
-                    width="360">
-                    <p slot="header" style="color:#f60;text-align:center">
-                        <Icon type="ios-information-circle"></Icon>
-                        <span>Serve confirmation</span>
-                    </p>
-                    <div style="text-align:center">
-                        <p>Mark as served?</p>
-                    </div>
-                    <div slot="footer">
-                        <Button @click="confirmServeOutModal = false" size="large">Close</Button>
-                        <Button type="success" size="large" @click="confirmServeOut">Confirm</Button>
-                    </div>
-                </Modal>
-
                <!-- all shift modal -->
                <Modal v-model ="allshiftReportModal"  :width="800">
                     <br>
@@ -1361,15 +1123,7 @@
                                 v-model="all_data_shift_report.cash.cents"
                                 style="width: 80%;"/>
                         </Col>
-                        <!-- <Col span="12">
-                            <h4>25 Cents</h4>
-                            <InputNumber
-                                :max="1000000000"
-                                :formatter="value => ` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                                :parser="value => value.replace(/\$\s?|(,*)/g, '')"
-                                v-model="all_data_shift_report.voucher.cents"
-                                style="width: 80%;"/>
-                        </Col> -->
+                       
                     </Row>
                     <Row>
                         <Col span="12">
@@ -1419,31 +1173,19 @@
                             <!-- <Input v-model="qty" type="number" placeholder="Quantity" clearable style="width: 100%" ref="inputqty" autofocus/> -->
                             <InputNumber v-model="qty" style="width: 100%" ref="inputqty" autofocus/>
                         </div>
-                        <div class="col-lg-12 mb-2">
-                            <Input type="text" v-model="itemNote" placeholder="Item Note" />
-                        </div>
+                        
                     </div>
 
 
                     <div slot="footer">
                         <Button @click="modalQty = false" size="large">Close</Button>
                         <!-- decrease raw material -->
-                        <Button type="success" size="large" @click="addOrder(itemData.itemId,itemData.itemDescription,qty,itemNote,itemData.itemPrice,itemData.itemQty,itemData.categoryId,itemData.itemRawMaterial)">Add</Button>
-                        <!-- <Button type="success" size="large" @click="addOrder(itemData.itemId,itemData.itemDescription,qty,itemNote,itemData.itemPrice,itemData.itemQty,itemData.categoryId)">Add</Button> -->
+                        <Button type="success" size="large" @click="addOrder(itemData.itemId,itemData.itemDescription,qty,itemData.itemPrice,itemData.itemQty,itemData.categoryId,itemData.itemRawMaterial)">Add</Button>
+                        <!-- <Button type="success" size="large" @click="addOrder(itemData.itemId,itemData.itemDescription,qty,itemData.itemPrice,itemData.itemQty,itemData.categoryId)">Add</Button> -->
                     </div>
                 </Modal>
 
-                	<Modal v-model="updateModalChangeTable" title="Change Table" :mask-closable = "false" :closable = "false">
-                            <Select v-model="changeTable.transactionTableId" placeholder="Select Table">
-                                <Option :value="t.tableId" v-for="(t, i) in tables" :key="i">
-                                    {{t.tableName}}
-                                </Option>
-                            </Select>
-                        <div slot="footer">
-                            <Button type="default" @click="updateModalChangeTable=false">Close</Button>
-                            <Button type="primary" @click="change_Table">Save</Button>
-                        </div>
-				    </Modal>
+                
             </Content>
             <Footer class="layout-footer-center">2021-2099 &copy; POS</Footer>
              <br>
@@ -1460,6 +1202,12 @@
             return{
                 split3: 0.5,
                 split4: 0.5,
+                data_department : {
+                    departmentId:'',
+                    departmentName: '',
+                    departmentDescription: '',
+                    departmentUse: ''
+                },
                 data_category : {
                     departmentId:'',
                     categoryName: '',
@@ -1479,9 +1227,7 @@
                     transactionSlipNo: '',
                     transactionTableId: '',
                     transactionServedBy: '',
-                    transactionStatus: 'Pending',
-                    transactionKitchenStatus: 'Pending',
-                    transactionBarStatus: 'Pending',
+                    transactionStatus: 'Paid',
                     transactionOutsourcedStatus: 'Pending',
                     orderVal:[]
                 },
@@ -1496,13 +1242,13 @@
                     cashInId:'',
                     giveBy:'',
                     amount:0.00,
-                    note:'',
+                  
                 },
                 data_cashout:{
                     cashOutId:'',
                     receiveBy:'',
                     amount:0.00,
-                    note:'',
+                 
                 },
                 data_shift_report:{
                     cash: {
@@ -1541,16 +1287,16 @@
                     tagName : ''
                 },
                 categories: [],
+                departments: [],
                 items: [],
                 orders:[],
                 tables:[],
                 beginingfund:[],
-                waiters:[],
+                users:[],
                 // buttonClickedId: '',
                 buttonClickedId: [],
-                kitchenDrawer: false,
-                barDrawer: false,
-                outSourcedDrawer:false,
+               
+              
                 paymentModal:false,
                 tenderedModal:false,
                 cashinModal:false,
@@ -1559,35 +1305,10 @@
                 beginingFundModal:false,
                 modalQty:false,
                 bar_orders:[],
-                kitchen_orders:[],
-                outsorced_orders:[],
-                all_orders:[],
-                all_orders_this_day:[],
-                bar_tables:[],
-                kitchen_tables:[],
-                outsourced_tables:[],
-                all_tables:[],
-                all_tables_this_day:[],
-                kitchenCheckedStatus:[],
-                barCheckedStatus:[],
-                outsourcedCheckedStatus:[],
+             
+              
                 search:'',
                 totals:[],
-                confirmServeKitchenModal: false,
-                confirmServeKitchenData: {
-                    table: '',
-                    transac: ''
-                },
-                confirmServeBarModal: false,
-                confirmServeBarData: {
-                    table: '',
-                    transac: ''
-                },
-                confirmServeOutModal: false,
-                confirmServeOutData: {
-                    table: '',
-                    transac: ''
-                },
                 ordersTotal: [],
                 ordersTotalPerDay: [],
                 orderTotalTemp:0,
@@ -1620,12 +1341,7 @@
                     date: '',
                 },
                 qty: 1,
-                itemNote:'',
-                updateModalChangeTable : false,
-                changeTable : {
-                    'transactionId': '',
-                    'transactionTableId': '',
-                },
+              
                 toBePaid:0,
                 dicountedPay:0
             }
@@ -1661,16 +1377,6 @@
                                 title: 'Success',
                                 desc: ''
                             });
-
-                        for(var i = 0; i < this.all_tables.length; i++) {
-                            var tableTotal = 0;
-                            for(var j = 0; j < this.all_orders.length; j++) {
-                                if(this.all_tables[i].transactionId == this.all_orders[j].transactionId) {
-                                    tableTotal += parseFloat(this.all_orders[j].orderTotal);
-                                }
-                            }
-                            this.$set(this.ordersTotal, i, tableTotal);
-                        }
 
                         } else {
                             this.$Notice.error({
@@ -1876,34 +1582,9 @@
 
 
             },
-            // addOrder: function(itemId,itemName,orderQty,itemNote,orderPrice,itemQty,categoryId) {
-
-            // START check raw material
-            addOrder: function(itemId,itemName,orderQty,itemNote,orderPrice,itemQty,categoryId,itemRawMaterial) {
-                // check if item has sufficient raw mats..
-                // var insufficientRawMats = [];
-                // if(itemRawMaterial.length > 0) {
-                //     for(var i = 0; i < itemRawMaterial.length; i++) {
-                //         var portionsToConsume = orderQty * itemRawMaterial[i].portionConsumed;
-                //         if(portionsToConsume > itemRawMaterial[i].raw_material[0].portions) {
-                //             insufficientRawMats.push(itemRawMaterial[i].raw_material[0].material);
-                //         }
-                //     }
-                // }
-                // if(insufficientRawMats.length > 0) {
-                //     insufficientRawMats = insufficientRawMats.join(',');
-                //     this.$Notice.warning({
-                //         title: 'Insufficient Raw Materials',
-                //         desc: 'Please add more stocks to the following items and try again: ' + insufficientRawMats
-                //     });
-                // } else if(orderQty > itemQty) {
-                //     // check if number of order is greater than orders available
-                //     this.$Notice.warning({
-                //         title: 'Insufficient orders available',
-                //         desc: 'Please add more stocks for the item or reduce the ordered quantity and try again'
-                //     });
-                // } else {
-            // END check raw material
+            
+            addOrder: function(itemId,itemName,orderQty,orderPrice,itemQty,categoryId,itemRawMaterial) {
+              
                     let totalPrice = orderPrice * orderQty;
                     let tempTotal = 0;
                     for(var i = 0; i < this.orders.length; i++) {
@@ -1920,14 +1601,14 @@
                         orderQty: orderQty,
                         orderPrice: orderPrice,
                         itemQty: itemQty,
-                        itemNote: itemNote,
+                      
                         totalPrice: totalPrice,
                         categoryId:categoryId
                         }
 
 
                     );
-                    this.itemNote = "";
+              
                     //this array object is basis for controller
                     this.data_transaction.orderVal.push(
                         {
@@ -1936,7 +1617,7 @@
                         orderQty: orderQty,
                         orderPrice: orderPrice,
                         itemQty: itemQty,
-                        itemNote: itemNote,
+                    
                         totalPrice: totalPrice,
                         categoryId:categoryId
                         }
@@ -1953,43 +1634,8 @@
 
             } ,
 
-            async servedKitchen(transaction,transactionId){
-               //update status served
-                    let resServedKitchen = await axios.post('api/kitchen_order_served/'+transactionId);
-                    if(resServedKitchen.status === 200) {
-                        this.$Notice.success({
-                            title: 'Success',
-                            desc: ''
-                        });
-                    } else {
-                        this.$Notice.error({
-                            title: 'Error',
-                            desc: ''
-                        });
-                    }
-                //end update status served
-                this.confirmServeKitchenModal = false;
-
-            },
-
-            async servedBar(transaction,transactionId){
-               //update status served
-                    let resServedBar = await axios.post('api/bar_order_served/'+transactionId);
-                    if(resServedBar.status === 200) {
-                        this.$Notice.success({
-                            title: 'Success',
-                            desc: ''
-                        });
-                    } else {
-                        this.$Notice.error({
-                            title: 'Error',
-                            desc: ''
-                        });
-                    }
-                //end update status served
-                this.confirmServeBarModal = false;
-
-            },
+       
+           
 
             async servedOursourced(transaction,transactionId){
                 //update status served
@@ -2067,17 +1713,7 @@
 
             },
 
-            confirmServeKitchen() {
-                this.servedKitchen(this.confirmServeKitchenData.table, this.confirmServeKitchenData.transac);
-            },
-
-            confirmServeBar() {
-                this.servedBar(this.confirmServeBarData.table, this.confirmServeBarData.transac);
-            },
-
-            confirmServeOut() {
-                this.servedOursourced(this.confirmServeOutData.table, this.confirmServeOutData.transac);
-            },
+        
 
             async reloadItems() {
                 var resItem = await this.callApi('get', 'api/dashboard_items');
@@ -2094,53 +1730,8 @@
                 // }, 3000);
             },
 
-        showChangeTableModal(changeTable){
-			let obj ={
-				transactionId: changeTable.transactionId,
-                transactionTableId: changeTable.transactionTableId
-			}
-            // all_orders.forEach(order => {
-            //     if(obj.transactionTableId == order.tableId){
-            //         console.log(order.itemName);
-            //         this.changeTable = obj
-            //     }
-            // });
+    
 
-            // var output = [];
-
-            // all_orders.forEach(function(item) {
-            // var existing = output.filter(function(v, i) {
-            //     return v.tableId == item.tableId;
-            // });
-            //    if(obj.transactionTableId == item.tableId){
-            //     output.push(item);
-            //    }
-            // });
-
-            // output.forEach(order => {
-            //         console.log(order.itemName);
-            //         // this.changeTable = obj
-            // });
-			this.changeTable = obj
-			this.updateModalChangeTable = true
-			// this.index = index
-		},
-
-         async change_Table(){
-               //change table
-                    let resChangeTable = await this.callApi('post', 'api/change_table', this.changeTable);
-                    if(resChangeTable.status === 200) {
-                        location.reload();
-                        // this.success('change table successfully');
-                        // this.updateModalChangeTable = false
-                    } else {
-                        this.$Notice.error({
-                            title: 'Error',
-                            desc: ''
-                        });
-                    }
-                //end change tabe
-            },
 
             destroySession() {
                 this.$session.set('loadedRedirect', 'false');
@@ -2163,29 +1754,14 @@
         async created(){
             this.removeAllOrders();
             this.reload();
-            const [resCategory,resItem,resTable,resKitchen,resKitchenTable,resBar,resBarTable,resOutsourced,resOutsourcedTable,resAllOrders,resAllOrdersThisDay,resAllTables,resAllTablesThisDay,resBeginingFund,resWaiters] = await Promise.all([
+            const [resCategory,resItem,resOutsourced,resAllOrders,resAllOrdersThisDay,resBeginingFund,resUsers] = await Promise.all([
                 this.callApi('get', 'api/dashboard_categories'),
                 this.callApi('get', 'api/dashboard_items'), // reload every 3 sec
-                this.callApi('get', 'api/dashboard_tables'),
 
-                //kitchen
-                this.callApi('get', 'api/dashboard_kitchen_all'),
-                this.callApi('get', 'api/dashboard_kitchen_tables'),
-                //bar
-                this.callApi('get', 'api/dashboard_bar_all'),
-                this.callApi('get', 'api/dashboard_bar_tables'),
-                //outsourced
-                this.callApi('get', 'api/dashboard_outsourced_all'),
-                this.callApi('get', 'api/dashboard_outsourced_tables'),
-                //all orders
-                this.callApi('get', 'api/dashboard_all_orders'),
-                this.callApi('get', 'api/dashboard_all_orders_this_day'),
-                this.callApi('get', 'api/dashboard_all_tables'),
-                this.callApi('get', 'api/dashboard_all_tables_this_day'),
                 //begining funds
                 this.callApi('get', 'api/check_beginingfund'),
-                //waiters
-                this.callApi('get', 'api/dashboard_all_waiters'),
+                //users
+                this.callApi('get', 'api/dashboard_all_users'),
 
 
             ])
@@ -2200,170 +1776,6 @@
             }else{
                 this.swr()
             }
-            if(resTable.status==200){
-                this.tables = resTable.data
-            }else{
-                this.swr()
-            }
-
-            if(resKitchen.status==200){
-		    	this.kitchen_orders = resKitchen.data
-            }else{
-                this.swr()
-            }
-            if(resKitchenTable.status==200){
-		    	this.kitchen_tables = resKitchenTable.data
-
-                for(var i = 0; i < this.kitchen_tables.length; i++) {
-                        let obj = this.kitchen_tables[i];
-                    //transaction status
-                    if (obj.transactionKitchenStatus == "Pending"){
-                          this.kitchenCheckedStatus.push('Pending');
-                    }else if (obj.transactionKitchenStatus == "Processing"){
-                          this.kitchenCheckedStatus.push('Pending','Processing');
-                    }else if (obj.transactionKitchenStatus == "Served"){
-                           this.kitchenCheckedStatus.push('Pending','Processing','Served');
-                    }
-                    //end transaction status
-                }
-
-            }else{
-                this.swr()
-            }
-
-            if(resBar.status==200){
-		    	this.bar_orders = resBar.data
-            }else{
-                this.swr()
-            }
-            if(resBarTable.status==200){
-		    	this.bar_tables = resBarTable.data
-
-                   for(var i = 0; i < this.bar_tables.length; i++) {
-                        let obj = this.bar_tables[i];
-                    //transaction status
-                    if (obj.transactionBarStatus == "Pending"){
-                          this.barCheckedStatus.push('Pending');
-                    }else if (obj.transactionBarStatus == "Processing"){
-                          this.barCheckedStatus.push('Pending','Processing');
-                    }else if (obj.transactionBarStatus == "Served"){
-                           this.barCheckedStatus.push('Pending','Processing','Served');
-                    }
-                    //end transaction status
-                }
-            }else{
-                this.swr()
-            }
-
-            if(resOutsourced.status==200){
-		    	this.outsourced_orders = resOutsourced.data
-            }else{
-                this.swr()
-            }
-            if(resOutsourcedTable.status==200){
-		    	this.outsourced_tables = resOutsourcedTable.data
-
-                   for(var i = 0; i < this.outsourced_tables.length; i++) {
-                        let obj = this.outsourced_tables[i];
-                    //transaction status
-                    if (obj.transactionOutsourcedStatus == "Pending"){
-                          this.outsourcedCheckedStatus.push('Pending');
-                    }else if (obj.transactionOutsourcedStatus == "Processing"){
-                          this.outsourcedCheckedStatus.push('Pending','Processing');
-                    }else if (obj.transactionOutsourcedStatus == "Served"){
-                           this.outsourcedCheckedStatus.push('Pending','Processing','Served');
-                    }
-                    //end transaction status
-                }
-            }else{
-                this.swr()
-            }
-
-            if(resAllOrders.status==200){
-		    	this.all_orders = resAllOrders.data
-            }else{
-                this.swr()
-            }
-
-            //TABS
-            if(resAllOrdersThisDay.status==200){
-		    	this.all_orders_this_day = resAllOrdersThisDay.data
-            }else{
-                this.swr()
-            }
-
-             if(resAllTables.status==200){
-		    	this.all_tables = resAllTables.data
-                for(var i = 0; i < this.all_tables.length; i++) {
-                    // let obj = this.all_orders[i];
-                    // let resTotal = await axios.get('api/total_all/'+obj.transactionId);
-                    // if(resTotal.status === 200) {
-                    //     this.totals = resTotal.data
-                    // } else {
-                    //     this.$Notice.error({
-                    //         title: 'Error',
-                    //         desc: ''
-                    //     });
-                    // }
-                    for(var j = 0; j < this.all_orders.length; j++) {
-                        if(this.all_orders[j].tableId == this.all_tables[i].tableId && this.all_tables[i].transactionId == this.all_orders[j].transactionId) {
-                            let obj = this.all_orders[j];
-                            let resTotal = await axios.get('api/total_all/'+obj.transactionId);
-                            if(resTotal.status === 200) {
-                                this.totals = resTotal.data
-                            } else {
-                                this.$Notice.error({
-                                    title: 'Error',
-                                    desc: ''
-                                });
-                            }
-                        }
-                    }
-                }
-
-            }else{
-                this.swr()
-            }
-
-            for(var i = 0; i < this.all_tables.length; i++) {
-                var tableTotal = 0;
-                for(var j = 0; j < this.all_orders.length; j++) {
-                    if(this.all_tables[i].transactionId == this.all_orders[j].transactionId) {
-                        tableTotal += parseFloat(this.all_orders[j].orderTotal);
-                    }
-                }
-                this.$set(this.ordersTotal, i, tableTotal);
-            }
-            //ALL
-            if(resAllTablesThisDay.status==200){
-		    	this.all_tables_this_day = resAllTablesThisDay.data
-                for(var i = 0; i < this.all_tables_this_day.length; i++) {
-                    let obj = this.all_orders_this_day[i];
-                    let resTotal = await axios.get('api/total_all/'+obj.transactionId);
-                    if(resTotal.status === 200) {
-                        this.totals = resTotal.data
-                    } else {
-                        this.$Notice.error({
-                            title: 'Error',
-                            desc: ''
-                        });
-                    }
-
-                }
-
-            }else{
-                this.swr()
-            }
-
-            for(var i = 0; i < this.all_tables_this_day.length; i++) {
-                var tableTotal = 0;
-                for(var j = 0; j < this.all_orders_this_day.length; j++) {
-                    if(this.all_tables_this_day[i].transactionId == this.all_orders_this_day[j].transactionId) {
-                        tableTotal += parseFloat(this.all_orders_this_day[j].orderTotal);
-                    }
-                }
-                this.$set(this.ordersTotalPerDay, i, tableTotal);
-            }
 
             if(resBeginingFund.status==200){
 		    	this.beginingfund = resBeginingFund.data
@@ -2375,8 +1787,8 @@
                 this.swr()
             }
 
-             if(resWaiters.status==200){
-		    	this.waiters = resWaiters.data
+             if(resUsers.status==200){
+		    	this.users = resUsers.data
             }else{
                 this.swr()
             }

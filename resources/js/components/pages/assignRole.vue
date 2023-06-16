@@ -104,7 +104,7 @@ export default {
             {resourceName: 'User', read: false, write: false, update: false, delete: false, name: 'user', icon: 'ios-contact'},
             {resourceName: 'Role', read: false, write: false, update: false, delete: false, name: 'role', icon: 'ios-body'},
             {resourceName: 'Assign Role', read: false, write: false, update: false, delete: false, name: 'assignRole', icon: 'ios-clipboard'},
-            {resourceName: 'Raw Materials', read: false, write: false, update: false, delete: false, name: 'raw_materials', icon: 'ios-basket'},
+            {resourceName: 'Raw Stock', read: false, write: false, update: false, delete: false, name: 'raw_stock', icon: 'ios-basket'},
         ],
       defaultResourcesPermission: [
             {resourceName: 'Kitchen Dashboard', read: false, write: false, update: false, delete: false, name: 'kitchen_dashboard', icon: 'ios-restaurant'},
@@ -130,7 +130,7 @@ export default {
             {resourceName: 'User', read: false, write: false, update: false, delete: false, name: 'user', icon: 'ios-contact'},
             {resourceName: 'Role', read: false, write: false, update: false, delete: false, name: 'role', icon: 'ios-body'},
             {resourceName: 'Assign Role', read: false, write: false, update: false, delete: false, name: 'assignRole', icon: 'ios-clipboard'},
-            {resourceName: 'Raw Materials', read: false, write: false, update: false, delete: false, name: 'raw_materials', icon: 'ios-basket'},
+            {resourceName: 'Raw Stock', read: false, write: false, update: false, delete: false, name: 'raw_stock', icon: 'ios-basket'},
         ],
     };
   },

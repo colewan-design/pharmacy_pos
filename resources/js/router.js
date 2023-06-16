@@ -15,6 +15,7 @@ import suppliers from './components/pages/supplier'
 import purchase_order from './components/pages/purchaseorder'
 import delivered_stock from './components/pages/deliveredstock'
 import bad_order from './components/pages/badorder'
+import brand from './components/pages/brand'
 
 import account_expense from './components/pages/accountexpense'
 import kitchen_dashboard from './components/kitchen_dashboard'
@@ -32,7 +33,7 @@ import reports from './components/reports'
 import inventory from './components/inventory'
 import expense from './components/expense'
 
-import raw_materials from './components/raw_materials'
+import raw_stock from './components/raw_stock'
 
 const routes = [
 
@@ -49,6 +50,11 @@ const routes = [
     {
         path:'/category',
         component: product_category
+    },
+
+    {
+        path:'/brand',
+        component: brand
     },
 
     {
@@ -156,8 +162,8 @@ const routes = [
         component: expense
     },
     {
-        path: '/raw_materials',
-        component: raw_materials
+        path: '/raw_stock',
+        component: raw_stock
     }
 ]
 

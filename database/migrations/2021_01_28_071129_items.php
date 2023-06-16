@@ -21,7 +21,7 @@ class Items extends Migration
             $table->integer("itemQty");
             $table->double("itemPrice");
             $table->char("itemUse")->default('Y')->comment('Y/N');
-            $table->char('itemIsDeleted')->default('N')->comment('Y/N');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

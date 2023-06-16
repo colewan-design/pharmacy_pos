@@ -15,11 +15,33 @@ class Purchaseorder extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id("purchaseOrderId");
-            $table->string('supplierName');
-            $table->text('itemName');
-            $table->text('itemDescription');
-            $table->text('itemQty');
-            $table->text('fromLocation');
+            $table->string('customerCode');
+            $table->string('salesman');
+            $table->string('customerType');
+            $table->string('address');
+            $table->string('poNumber');
+            $table->string('salesmanCode');
+            $table->string('terms');
+            $table->string('page');
+            $table->string('productCode');
+            $table->string('description');
+            $table->string('quantity');
+            $table->string('unitPrice');
+            $table->string('productDiscount');
+            $table->string('amount');
+            $table->string('taxCode');
+            $table->string('lotNumber');
+            $table->string('expiryDate');
+            $table->string('split');
+            $table->string('order');
+            $table->string('delivered');
+            $table->string('uom');
+            $table->string('unitPriceWOVat');
+            $table->string('unitPriceWithVat');
+            $table->string('rate');
+            $table->string('productDiscountWOVat');
+            $table->string('productDiscountWithVat');
+            $table->string('amountWithVat');
             $table->softDeletes();
             $table->timestamps();
         });

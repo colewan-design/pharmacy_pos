@@ -18,7 +18,7 @@ class Departments extends Migration
             $table->string('departmentName');
             $table->text('departmentDescription');
             $table->char('departmentUse')->default('Y')->comment('Y/N');
-            $table->char('departmentIsDeleted')->default('N')->comment('Y/N');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

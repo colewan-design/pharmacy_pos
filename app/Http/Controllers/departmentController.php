@@ -13,7 +13,7 @@ class departmentController extends Controller
 
     public function getDepartment()
     {
-        return department::where('departmentIsDeleted', '!=' , 'Y')->get();
+        return department::whereNull('deleted_at')->get();
     }
 
     public function createDepartment(Request $request)

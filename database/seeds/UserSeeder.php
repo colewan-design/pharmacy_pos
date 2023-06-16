@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
          // Create a Superadmin user
          DB::table('users')->insert([
             'id' => '1',
-
              'fullname' => 'Admin',
              'email' => 'admin@admin.com',
              'password' => Hash::make('123456'),
@@ -23,7 +22,7 @@ class UserSeeder extends Seeder
              'position' => 'Admin',
              'created_at' => now(),
              'updated_at' => NULL,
-             'updated_at' => NULL,
+             'deleted_at' => NULL,
          ]);
 
     }
